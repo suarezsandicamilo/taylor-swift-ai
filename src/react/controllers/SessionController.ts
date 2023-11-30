@@ -7,7 +7,7 @@ class SessionController {
     return localStorage.getItem('userinfo_id') ?? '';
   }
 
-  static async startSession(response: TokenResponse, callback?: () => {}) {
+  static async startSession(response: TokenResponse, callback?: () => void) {
     const { access_token } = response;
 
     const data = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${access_token}`);
@@ -21,7 +21,7 @@ class SessionController {
     }
   }
 
-  static endSession(callback?: () => {}) {
+  static endSession(callback?: () => void) {
     localStorage.removeItem('userinfo_id');
 
     if (callback !== undefined) {
