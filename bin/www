@@ -5,7 +5,7 @@
  */
 
 var app = require('../src/express/app');
-var debug = require('debug')('taylor-swift:server');
+var debug = require('debug')('taylor-swift-ai:server');
 var http = require('http');
 
 /**
