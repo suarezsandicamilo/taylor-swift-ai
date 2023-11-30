@@ -18,7 +18,7 @@ const SignIn = () => {
   });
 
   return (
-    <div className="container">
+    <div id='App-SignIn' className="container">
       <div className="row">
         <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
           <div className="card border-0 shadow rounded-3 my-5">
@@ -49,4 +49,4 @@ const SignIn = () => {
   );
 }
 
-export default SignIn;
+export { SignIn };

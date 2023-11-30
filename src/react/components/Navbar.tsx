@@ -14,18 +14,17 @@ const Navbar = () => {
   };
 
   return (
-    <nav className='navbar navbar-expand-lg navbar-light bg-light border-bottom'>
+    <nav id='App-Navbar' className='navbar'>
       <div className='container-fluid'>
-        <div className='collapse navbar-collapse' id='navbarSupportedContent'>
-          <ul className='navbar-nav ms-auto mt-2 mt-lg-0'>
-            <li className='nav-item active'>
-              <button className='btn' onClick={endSession}>Cerrar Sesión</button>
-            </li>
-          </ul>
-        </div>
+        <a className='navbar-brand' href='/'>Taylor Swift AI</a>
+        <ul className='navbar-nav'>
+          <li className='nav-item'>
+            <button className='btn' onClick={endSession}>Cerrar Sesión</button>
+          </li>
+        </ul>
       </div>
     </nav>
   );
 }
 
-export default Navbar;
+export { Navbar };

@@ -16,50 +16,16 @@ code {
     monospace;
 }
 
-#wrapper {
-  overflow-x: hidden;
+#App-Navbar {
+  background: linear-gradient(to right, #0062E6, #33AEFF);
 }
 
-#sidebar-wrapper {
-  min-height: 100vh;
-  margin-left: -15rem;
-  transition: margin 0.25s ease-out;
+#App-Navbar * {
+  color: #FFFFFF;
 }
 
-#sidebar-wrapper .sidebar-heading {
-  padding: 0.875rem 1.25rem;
-  font-size: 1.2rem;
-}
-
-#sidebar-wrapper .list-group {
-  width: 15rem;
-}
-
-#page-content-wrapper {
-  min-width: 100vw;
-}
-
-body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
-  margin-left: 0;
-}
-
-@media (min-width: 768px) {
-  #sidebar-wrapper {
-    margin-left: 0;
-  }
-
-  #page-content-wrapper {
-    min-width: 0;
-    width: 100%;
-  }
-
-  body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
-    margin-left: -15rem;
-  }
-}
-
-#content {
-  width: 50vw;
+#App-Sidebar {
+  min-height: 90vh;
 }
 
 .btn-login {
@@ -73,11 +39,7 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   background-color: #EA4335;
 }
 
-.btn-google:hover {
-  background-color: #D42616;
-}
-
-.btn-google:focus {
+.btn-google:hover, .btn-google:focus {
   background-color: #D42616;
 }
 
