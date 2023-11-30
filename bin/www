@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../server');
+var app = require('../src/express/app');
 var debug = require('debug')('taylor-swift:server');
 var http = require('http');
 
