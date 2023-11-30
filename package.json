@@ -1,5 +1,5 @@
 {
-  "name": "taylor-swift",
+  "name": "taylor-swift-ai",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,6 +10,11 @@
     "@types/node": "^16.18.66",
     "@types/react": "^18.2.39",
     "@types/react-dom": "^18.2.17",
+    "cookie-parser": "^1.4.6",
+    "debug": "^4.3.4",
+    "express": "^4.18.2",
+    "http-errors": "^2.0.0",
+    "morgan": "^1.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -20,7 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "set DEBUG=:* & node ./bin/www"
   },
   "eslintConfig": {
     "extends": [
