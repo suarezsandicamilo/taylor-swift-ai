@@ -39,4 +39,4 @@ localStorage.setItem(`${userinfo_id}:${song2}:lines`, JSON.stringify([
   }
 ]));
 
-localStorage.setItem(`${userinfo_id}:${song3}:lines`, JSON.stringify());
+localStorage.setItem(`${userinfo_id}:${song3}:lines`, JSON.stringify([]));
