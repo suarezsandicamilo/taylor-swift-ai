@@ -1,46 +1,55 @@
-# Getting Started with Create React App
+# Instrucciones para README
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Configuración del Entorno
 
-## Available Scripts
+1. **Instalar WSL Ubuntu:**
+   - Sigue las instrucciones para instalar Windows Subsystem for Linux (WSL) con la distribución de Ubuntu. Puedes encontrar las instrucciones en [Microsoft WSL Documentation](https://docs.microsoft.com/en-us/windows/wsl/).
 
-In the project directory, you can run:
+2. **Instalar Node.js en Ubuntu:**
+   - Utiliza el siguiente comando para instalar Node.js en Ubuntu:
+     ```bash
+     sudo apt-get update
+     sudo apt-get install nodejs
+     ```
 
-### `npm start`
+## Configuración del Proyecto
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+3. **Clonar el repositorio:**
+   - Clona el repositorio desde GitHub utilizando el siguiente comando:
+     ```bash
+     git clone https://github.com/suarezsandicamilo/taylor-swift-ai.git
+     ```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+4. **Configurar la Ruta del Modelo:**
+   - Navega al archivo `taylor-swift-ai/src/Outputs/taylor_swift_js_v2/model.json` y copia el path completo de este archivo.
 
-### `npm test`
+5. **Editar el archivo .env:**
+   - Abre el archivo `.env` y asigna el valor de `MODEL_PATH` al path del archivo de modelo que copiaste anteriormente.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Configuración del Proyecto Node.js
 
-### `npm run build`
+6. **Instalar Dependencias:**
+   - Ejecuta el siguiente comando para instalar las dependencias del proyecto:
+     ```bash
+     npm install
+     ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+7. **Ejecutar el Frontend de React:**
+   - Utiliza el siguiente comando para iniciar el servidor del Frontend de React:
+     ```bash
+     npm run start
+     ```
+   - Abre tu navegador y visita [http://localhost:3000](http://localhost:3000) para acceder a la aplicación.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+8. **Ejecutar el Backend de Express:**
+   - Ejecuta el siguiente comando para iniciar el servidor del Backend de Express:
+     ```bash
+     npm run server
+     ```
+   - El servidor estará disponible en [http://localhost:3001](http://localhost:3001).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+9. **Acceder con Google:**
+   - La aplicación requerirá acceso con Google. Asegúrate de tener las credenciales de OAuth configuradas según las instrucciones del proyecto.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+10. **Visitar la Aplicación:**
+   - Accede a la aplicación visitando [http://localhost:3000](http://localhost:3000) en tu navegador.

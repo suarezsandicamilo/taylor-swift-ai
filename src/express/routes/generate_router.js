@@ -13,6 +13,9 @@ const router = express.Router();
 async function loadNeuralNetworkModel() {
   try {
     const model_path = process.env.MODEL_PATH;
+    if (model_path === null || model_path === undefined) {
+      throw new Error('MODEL_PATH environment variable not set.');
+    }
     console.log(model_path);
     return await tf.loadLayersModel(`file://${model_path}`);
   } catch (error) {
