@@ -1,79 +1,90 @@
-//
-
 const express = require('express');
-const path = require('path');
 const tf = require('@tensorflow/tfjs-node');
+const fs = require('fs');
 
 const router = express.Router();
 
-let model;
-
-async function loadModel() {
+/**
+ * Loads the pre-trained neural network model.
+ */
+async function loadNeuralNetworkModel() {
   try {
-    model = await tf.loadLayersModel('file:///home/usr/taylor-swift-ai/src/Outputs/taylor_swift_js_v2/model.json'); // Only Total Paths
+    return await tf.loadLayersModel('file:///home/usr/taylor-swift-ai/src/Outputs/taylor_swift_js_v2/model.json');
   } catch (error) {
-    console.error('Error loading model:', error);
+    console.error('Error loading neural network model:', error);
   }
 }
 
-loadModel();
+/**
+ * Handles the POST request to generate text using the loaded neural network model.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
+router.post('/', async (req, res) => {
+  let neuralNetworkModel = await loadNeuralNetworkModel();
 
-router.post('/', (req, res) => {
-  // Check if the model is loaded
-  if (!model) {
-    return res.status(500).send('Model not loaded yet');
+  if (!neuralNetworkModel) {
+    return res.status(500).send('Neural network model not loaded yet');
   }
 
-  const inputData = req.body.data;
-  console.log(req.body);
-  if (!Array.isArray(inputData)) {
+  const inputSequence = req.body.data;
+
+  if (!Array.isArray(inputSequence)) {
     return res.status(400).send('Input data must be an array');
   }
-  const tensor = tf.tensor(inputData);
-  console.log('Input Data:', inputData);
-  const fs = require('fs');
 
-  const text = fs.readFileSync('/home/usr/taylor-swift-ai/src/Outputs/choruses.txt', 'utf-8');
+  try {
+    const textCorpus = fs.readFileSync('/home/usr/taylor-swift-ai/src/Outputs/choruses.txt', 'utf-8');
+    const vocabularySet = new Set(textCorpus);
+    const vocabulary = Array.from(vocabularySet).sort();
 
-  const vocabSet = new Set(text);
-  const vocab = Array.from(vocabSet).sort();
+    const characterToIndexMap = {};
+    vocabulary.forEach((char, idx) => {
+      characterToIndexMap[char] = idx;
+    });
 
-  const char2idx = {};
-  vocab.forEach((char, idx) => {
-    char2idx[char] = idx;
-  });
+    const indexToCharacterArray = vocabulary;
 
-  const idx2char = vocab;
+    const generatedText = await generateText(neuralNetworkModel, inputSequence[0], 0.5, characterToIndexMap, indexToCharacterArray);
 
-  generateText(model, inputData[0], 0.5, char2idx, idx2char).then(result => res.json(result));
+    res.json(generatedText);
+  } catch (error) {
+    console.error('Error reading file or generating text:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
-async function generateText(model, startString, t, char2idx, idx2char) {
-
+/**
+ * Generates text using the provided neural network model.
+ * @param {Object} model - TensorFlow neural network model.
+ * @param {string} startSequence - Initial input sequence for text generation.
+ * @param {number} temperature - Controls the randomness of the generated text.
+ * @param {Object} charToIdx - Mapping of characters to their corresponding indices.
+ * @param {Array} idxToChar - Array representing the vocabulary with indices.
+ * @returns {string} - Generated text.
+ */
+async function generateText(model, startSequence, temperature, charToIdx, idxToChar) {
   const numGenerate = 300;
 
-  let inputEval = startString.split('').map(s => char2idx[s]);
+  let inputEval = startSequence.split('').map(s => charToIdx[s]);
+
   inputEval = tf.tensor2d([inputEval]);
 
-  const textGenerated = [];
-
-  const temperature = t;
+  const generatedText = [];
 
   model.resetStates();
+
   for (let i = 0; i < numGenerate; i++) {
     const predictions = model.predict(inputEval);
-
     const predictionsSqueezed = predictions.squeeze();
-
     const predictionsScaled = predictionsSqueezed.div(temperature);
     const predictedId = tf.multinomial(predictionsScaled, 1).dataSync()[0];
 
     inputEval = tf.tensor2d([[predictedId]]);
-
-    textGenerated.push(idx2char[predictedId]);
+    generatedText.push(idxToChar[predictedId]);
   }
 
-  return startString + textGenerated.join('');
+  return startSequence + generatedText.join('');
 }
 
 module.exports = router;

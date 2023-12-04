@@ -18,10 +18,7 @@ function App() {
     uuid: ''
   } as SongData);
 
-  const [generatedSong, setGeneratedSong] = useState('');
-
   const handleGenerateSong = async (inputData: string) => {
-    // Aquí debes hacer la llamada al servidor para generar la canción con la IA
     try {
       const response = await fetch('http://localhost:3001/generate', {
         method: 'POST',
@@ -35,6 +32,7 @@ function App() {
       });
 
       const json = await response.json() as string;
+      console.log(json);
 
       const uuid = SongController.createSong(inputData);
 
@@ -81,22 +79,14 @@ function App() {
               <Content song={song} />
             ) : (
               <>
-                <h4>Generar Canción</h4>
+                <h1 className='my-4'>Crear Canción</h1>
                 <form id='songForm' onSubmit={handleFormSubmit}>
                   <div className='form-group'>
-                    <label htmlFor='songText'>Palabra Clave:</label>
+                    <label htmlFor='songText' className='form-label'>Nombre:</label>
                     <input type='text' className='form-control' id='songText' name='songText' required />
                   </div>
-                  <button type='submit' className='btn btn-primary'>
-                    Generar
-                  </button>
+                  <button type='submit' className='btn btn-primary my-2'>Crear</button>
                 </form>
-                {generatedSong && (
-                  <div className='mt-4'>
-                    <h5>Canción Generada:</h5>
-                    <p>{generatedSong}</p>
-                  </div>
-                )}
               </>
             )}
           </div>
