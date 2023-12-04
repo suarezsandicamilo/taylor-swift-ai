@@ -55,7 +55,7 @@ function App() {
     if (userInput) {
       if (userTemperature) {
         const parsedTemperature = parseFloat(userTemperature);
-        if (!isNaN(parsedTemperature) && parsedTemperature >= 0 && parsedTemperature <= 1) {
+        if (!isNaN(parsedTemperature) && parsedTemperature > 0 && parsedTemperature < 1) {
           setTemperature(parsedTemperature); // Actualiza el estado de la temperatura
         } else {
           alert('Temperatura no válida. Debe ser un número entre 0 y 1.');
