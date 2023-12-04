@@ -3,6 +3,8 @@ const tf = require('@tensorflow/tfjs-node');
 const fs = require('fs');
 const path = require('path');
 
+require('dotenv').config();
+
 const router = express.Router();
 
 /**
@@ -10,7 +12,9 @@ const router = express.Router();
  */
 async function loadNeuralNetworkModel() {
   try {
-    return await tf.loadLayersModel('file:///home/usr/taylor-swift-ai/src/Outputs/taylor_swift_js_v2/model.json');
+    const model_path = process.env.MODEL_PATH;
+    console.log(model_path);
+    return await tf.loadLayersModel(`file://${model_path}`);
   } catch (error) {
     console.error('Error loading neural network model:', error);
   }
