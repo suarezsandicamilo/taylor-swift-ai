@@ -26,6 +26,8 @@ class SongController {
     DataController.update('songs', songs);
 
     DataController.update(`${uuid}:lines`, []);
+
+    return uuid;
   }
 
   static addLineToSong(song: string, line: string) {

@@ -23,7 +23,7 @@ function App() {
   const handleGenerateSong = async (inputData: string) => {
     // Aquí debes hacer la llamada al servidor para generar la canción con la IA
     try {
-      await fetch('http://localhost:3001/generate', {
+      const response = await fetch('http://localhost:3001/generate', {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
@@ -32,26 +32,31 @@ function App() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ data: [inputData] }),
-      }).then(response => response.json())
-      .then(data => setGeneratedSong(data));
+      });
 
-      SongController.createSong(inputData);
-      SongController.addLineToSong(inputData, generatedSong);
+      const json = await response.json() as string;
+
+      const uuid = SongController.createSong(inputData);
+
+      for (const line of json.split('\n')) {
+        SongController.addLineToSong(uuid, line);
+      }
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     console.log('voy a ahcer submit');
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const userInput = formData.get('songText')?.toString(); // Usando el operador de opción (?)
     if (userInput) {
-      handleGenerateSong(userInput);
+      await handleGenerateSong(userInput);
+      window.location.reload();
     }
   };
-  
+
 
   if (!SessionController.hasSession()) {
     return <SignIn />;
@@ -75,7 +80,7 @@ function App() {
             {song.name !== '' ? (
               <Content song={song} />
             ) : (
-              <>  
+              <>
                 <h4>Generar Canción</h4>
                 <form id='songForm' onSubmit={handleFormSubmit}>
                   <div className='form-group'>
