@@ -10,6 +10,7 @@ import { Sidebar } from './components/Sidebar';
 import { SignIn } from './components/SignIn';
 
 import { SessionController } from './controllers/SessionController';
+import { SongController } from './controllers/SongController';
 
 function App() {
   const [song, setSong] = useState({
@@ -22,20 +23,20 @@ function App() {
   const handleGenerateSong = async (inputData: string) => {
     // Aquí debes hacer la llamada al servidor para generar la canción con la IA
     try {
-      const response = await fetch('http://localhost:3001/generate', {
+      await fetch('http://localhost:3001/generate', {
         method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ data: [inputData] }),
-      });
-  
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-  
-      const result = await response.json();
-      setGeneratedSong(result.prediction);
+      }).then(response => response.json())
+      .then(data => setGeneratedSong(data));
+
+      SongController.createSong(inputData);
+      SongController.addLineToSong(inputData, generatedSong);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -74,7 +75,7 @@ function App() {
             {song.name !== '' ? (
               <Content song={song} />
             ) : (
-              <>
+              <>  
                 <h4>Generar Canción</h4>
                 <form id='songForm' onSubmit={handleFormSubmit}>
                   <div className='form-group'>
