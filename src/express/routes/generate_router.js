@@ -1,6 +1,7 @@
 const express = require('express');
 const tf = require('@tensorflow/tfjs-node');
 const fs = require('fs');
+const path = require('path');
 
 const router = express.Router();
 
@@ -34,7 +35,8 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    const textCorpus = fs.readFileSync('/home/usr/taylor-swift-ai/src/Outputs/choruses.txt', 'utf-8');
+    const textCorpusPath = path.join(path.resolve(), '/src/Outputs/choruses.txt');
+    const textCorpus = fs.readFileSync(textCorpusPath, 'utf-8');
     const vocabularySet = new Set(textCorpus);
     const vocabulary = Array.from(vocabularySet).sort();
 
