@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
 
   const idx2char = vocab;
 
-  generateText(model, 'Call me', 0.5, char2idx, idx2char).then(result => result.json());
+  generateText(model, inputData[0], 0.5, char2idx, idx2char).then(result => res.json(result));
 });
 
 async function generateText(model, startString, t, char2idx, idx2char) {
