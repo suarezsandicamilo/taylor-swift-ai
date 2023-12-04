@@ -18,6 +18,8 @@ function App() {
     uuid: ''
   } as SongData);
 
+  const [temperature, setTemperature] = useState(0.5);
+
   const handleGenerateSong = async (inputData: string) => {
     try {
       const response = await fetch('http://localhost:3001/generate', {
@@ -28,7 +30,7 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ data: [inputData] }),
+        body: JSON.stringify({ data: [inputData, temperature]  }),
       });
 
       const json = await response.json() as string;
@@ -48,8 +50,18 @@ function App() {
     console.log('voy a ahcer submit');
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const userInput = formData.get('songText')?.toString(); // Usando el operador de opción (?)
+    const userInput = formData.get('songText')?.toString();
+    const userTemperature = formData.get('temperature')?.toString();
     if (userInput) {
+      if (userTemperature) {
+        const parsedTemperature = parseFloat(userTemperature);
+        if (!isNaN(parsedTemperature) && parsedTemperature >= 0 && parsedTemperature <= 1) {
+          setTemperature(parsedTemperature); // Actualiza el estado de la temperatura
+        } else {
+          alert('Temperatura no válida. Debe ser un número entre 0 y 1.');
+          return;
+        }
+      }
       await handleGenerateSong(userInput);
       window.location.reload();
     }
@@ -84,6 +96,10 @@ function App() {
                   <div className='form-group'>
                     <label htmlFor='songText' className='form-label'>Nombre:</label>
                     <input type='text' className='form-control' id='songText' name='songText' required />
+                  </div>
+                  <div className='form-group'>
+                    <label htmlFor='temperature' className='form-label'>Temperatura (entre 0 y 1):</label>
+                    <input type='number' className='form-control' id='temperature' name='temperature' step='0.01' min='0' max='1' defaultValue={temperature} />
                   </div>
                   <button type='submit' className='btn btn-primary my-2'>Crear</button>
                 </form>

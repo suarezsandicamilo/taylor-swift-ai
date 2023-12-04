@@ -54,7 +54,9 @@ router.post('/', async (req, res) => {
 
     const indexToCharacterArray = vocabulary;
 
-    const generatedText = await generateText(neuralNetworkModel, inputSequence[0], 0.5, characterToIndexMap, indexToCharacterArray);
+    const generatedText = await generateText(neuralNetworkModel
+      , inputSequence[0], inputSequence[1], characterToIndexMap
+      , indexToCharacterArray);
 
     res.json(generatedText);
   } catch (error) {
