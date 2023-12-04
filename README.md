@@ -1,4 +1,10 @@
-# Instrucciones para README
+# Integrantes
+
+* Camilo Suárez Sandí (C17811)
+
+* Ángel Chaves Chinchilla (C12113)
+
+# Instrucciones
 
 ## Configuración del Entorno
 
